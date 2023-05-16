@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "901111334195",
+    "project_id": "faculty-sports",
+    "storage_bucket": "faculty-sports.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901111334195:android:2bf06a3f325e6da5f96a46",
+        "android_client_info": {
+          "package_name": "Robin.Do"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901111334195-st0okfmobm3kbvjqg5e8biffk418u7ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU6RedcmRaOhQNUr7m0VPe_M7EIlBFO8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901111334195-st0okfmobm3kbvjqg5e8biffk418u7ig.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901111334195-3lqp17drcb6tpsga3nc4spiof1kbe9jv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Robin.Do"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901111334195:android:b13996522ab22bcff96a46",
+        "android_client_info": {
+          "package_name": "com.mycompany.facultysportslive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901111334195-qlttmro9tm9cgl8bkm0hdmlla12f221i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.facultysportslive",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "901111334195-st0okfmobm3kbvjqg5e8biffk418u7ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU6RedcmRaOhQNUr7m0VPe_M7EIlBFO8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901111334195-st0okfmobm3kbvjqg5e8biffk418u7ig.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901111334195-3lqp17drcb6tpsga3nc4spiof1kbe9jv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Robin.Do"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
