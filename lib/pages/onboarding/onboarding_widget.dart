@@ -1110,9 +1110,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                                       GoRouter.of(context)
                                                           .prepareAuthEvent();
 
-                                                      final user =
-                                                          await authManager
-                                                              .signInWithEmail(
+                                                      final user = await authManager
+                                                          .createAccountWithEmail(
                                                         context,
                                                         _model
                                                             .emailAddressCreateController
