@@ -7,8 +7,6 @@ import '../flutter_flow_theme.dart';
 import '../../backend/backend.dart';
 
 import '../../auth/base_auth_user_provider.dart';
-import '../../backend/push_notifications/push_notifications_handler.dart'
-    show PushNotificationsHandler;
 
 import '../../index.dart';
 import '../../main.dart';
@@ -93,6 +91,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'profile',
           path: '/profile',
           builder: (context, params) => ProfileWidget(),
+        ),
+        FFRoute(
+          name: 'editProfile',
+          path: '/editProfile',
+          builder: (context, params) => EditProfileWidget(),
+        ),
+        FFRoute(
+          name: 'forgotpassword',
+          path: '/forgotpassword',
+          builder: (context, params) => ForgotpasswordWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       urlPathStrategy: UrlPathStrategy.path,
@@ -283,7 +291,7 @@ class FFRoute {
                     ),
                   ),
                 )
-              : PushNotificationsHandler(child: page);
+              : page;
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

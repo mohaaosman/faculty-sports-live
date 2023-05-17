@@ -748,18 +748,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                                           0.0, 0.0, 0.0, 16.0),
                                                   child: FFButtonWidget(
                                                     onPressed: () async {
-                                                      GoRouter.of(context)
-                                                          .prepareAuthEvent();
-                                                      final user =
-                                                          await authManager
-                                                              .signInWithGoogle(
-                                                                  context);
-                                                      if (user == null) {
-                                                        return;
-                                                      }
-
-                                                      context.goNamedAuth(
-                                                          'home', mounted);
+                                                      context.pushNamed(
+                                                          'forgotpassword');
                                                     },
                                                     text: 'Forgot Password?',
                                                     options: FFButtonOptions(
