@@ -34,6 +34,9 @@ abstract class MatchesRecord
   @BuiltValueField(wireName: 'score_id')
   DocumentReference? get scoreId;
 
+  @BuiltValueField(wireName: 'created_by_id')
+  DocumentReference? get createdById;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -72,6 +75,7 @@ Map<String, dynamic> createMatchesRecordData({
   DocumentReference? hTeamId,
   DocumentReference? aTeamId,
   DocumentReference? scoreId,
+  DocumentReference? createdById,
 }) {
   final firestoreData = serializers.toFirestore(
     MatchesRecord.serializer,
@@ -84,7 +88,8 @@ Map<String, dynamic> createMatchesRecordData({
         ..dateUpdated = dateUpdated
         ..hTeamId = hTeamId
         ..aTeamId = aTeamId
-        ..scoreId = scoreId,
+        ..scoreId = scoreId
+        ..createdById = createdById,
     ),
   );
 

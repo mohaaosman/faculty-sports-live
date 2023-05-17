@@ -62,6 +62,14 @@ class _$TeamsRecordSerializer implements StructuredSerializer<TeamsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.createdById;
+    if (value != null) {
+      result
+        ..add('created_by_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -110,6 +118,12 @@ class _$TeamsRecordSerializer implements StructuredSerializer<TeamsRecord> {
           result.imagePath = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'created_by_id':
+          result.createdById = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -137,6 +151,8 @@ class _$TeamsRecord extends TeamsRecord {
   @override
   final String? imagePath;
   @override
+  final DocumentReference<Object?>? createdById;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$TeamsRecord([void Function(TeamsRecordBuilder)? updates]) =>
@@ -149,6 +165,7 @@ class _$TeamsRecord extends TeamsRecord {
       this.dateCreated,
       this.coachId,
       this.imagePath,
+      this.createdById,
       this.ffRef})
       : super._();
 
@@ -169,6 +186,7 @@ class _$TeamsRecord extends TeamsRecord {
         dateCreated == other.dateCreated &&
         coachId == other.coachId &&
         imagePath == other.imagePath &&
+        createdById == other.createdById &&
         ffRef == other.ffRef;
   }
 
@@ -181,6 +199,7 @@ class _$TeamsRecord extends TeamsRecord {
     _$hash = $jc(_$hash, dateCreated.hashCode);
     _$hash = $jc(_$hash, coachId.hashCode);
     _$hash = $jc(_$hash, imagePath.hashCode);
+    _$hash = $jc(_$hash, createdById.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -195,6 +214,7 @@ class _$TeamsRecord extends TeamsRecord {
           ..add('dateCreated', dateCreated)
           ..add('coachId', coachId)
           ..add('imagePath', imagePath)
+          ..add('createdById', createdById)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -227,6 +247,11 @@ class TeamsRecordBuilder implements Builder<TeamsRecord, TeamsRecordBuilder> {
   String? get imagePath => _$this._imagePath;
   set imagePath(String? imagePath) => _$this._imagePath = imagePath;
 
+  DocumentReference<Object?>? _createdById;
+  DocumentReference<Object?>? get createdById => _$this._createdById;
+  set createdById(DocumentReference<Object?>? createdById) =>
+      _$this._createdById = createdById;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -244,6 +269,7 @@ class TeamsRecordBuilder implements Builder<TeamsRecord, TeamsRecordBuilder> {
       _dateCreated = $v.dateCreated;
       _coachId = $v.coachId;
       _imagePath = $v.imagePath;
+      _createdById = $v.createdById;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -273,6 +299,7 @@ class TeamsRecordBuilder implements Builder<TeamsRecord, TeamsRecordBuilder> {
             dateCreated: dateCreated,
             coachId: coachId,
             imagePath: imagePath,
+            createdById: createdById,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

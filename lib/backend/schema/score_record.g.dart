@@ -60,6 +60,14 @@ class _$ScoreRecordSerializer implements StructuredSerializer<ScoreRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.createdById;
+    if (value != null) {
+      result
+        ..add('created_by_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -108,6 +116,12 @@ class _$ScoreRecordSerializer implements StructuredSerializer<ScoreRecord> {
           result.lastUpdated = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
+        case 'created_by_id':
+          result.createdById = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -135,6 +149,8 @@ class _$ScoreRecord extends ScoreRecord {
   @override
   final DateTime? lastUpdated;
   @override
+  final DocumentReference<Object?>? createdById;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$ScoreRecord([void Function(ScoreRecordBuilder)? updates]) =>
@@ -147,6 +163,7 @@ class _$ScoreRecord extends ScoreRecord {
       this.aTeamScore,
       this.dateCreated,
       this.lastUpdated,
+      this.createdById,
       this.ffRef})
       : super._();
 
@@ -167,6 +184,7 @@ class _$ScoreRecord extends ScoreRecord {
         aTeamScore == other.aTeamScore &&
         dateCreated == other.dateCreated &&
         lastUpdated == other.lastUpdated &&
+        createdById == other.createdById &&
         ffRef == other.ffRef;
   }
 
@@ -179,6 +197,7 @@ class _$ScoreRecord extends ScoreRecord {
     _$hash = $jc(_$hash, aTeamScore.hashCode);
     _$hash = $jc(_$hash, dateCreated.hashCode);
     _$hash = $jc(_$hash, lastUpdated.hashCode);
+    _$hash = $jc(_$hash, createdById.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -193,6 +212,7 @@ class _$ScoreRecord extends ScoreRecord {
           ..add('aTeamScore', aTeamScore)
           ..add('dateCreated', dateCreated)
           ..add('lastUpdated', lastUpdated)
+          ..add('createdById', createdById)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -225,6 +245,11 @@ class ScoreRecordBuilder implements Builder<ScoreRecord, ScoreRecordBuilder> {
   DateTime? get lastUpdated => _$this._lastUpdated;
   set lastUpdated(DateTime? lastUpdated) => _$this._lastUpdated = lastUpdated;
 
+  DocumentReference<Object?>? _createdById;
+  DocumentReference<Object?>? get createdById => _$this._createdById;
+  set createdById(DocumentReference<Object?>? createdById) =>
+      _$this._createdById = createdById;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -242,6 +267,7 @@ class ScoreRecordBuilder implements Builder<ScoreRecord, ScoreRecordBuilder> {
       _aTeamScore = $v.aTeamScore;
       _dateCreated = $v.dateCreated;
       _lastUpdated = $v.lastUpdated;
+      _createdById = $v.createdById;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -271,6 +297,7 @@ class ScoreRecordBuilder implements Builder<ScoreRecord, ScoreRecordBuilder> {
             aTeamScore: aTeamScore,
             dateCreated: dateCreated,
             lastUpdated: lastUpdated,
+            createdById: createdById,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

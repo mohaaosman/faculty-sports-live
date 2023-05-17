@@ -69,6 +69,14 @@ class _$NewsRecordSerializer implements StructuredSerializer<NewsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.createdById;
+    if (value != null) {
+      result
+        ..add('created_by_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -121,6 +129,12 @@ class _$NewsRecordSerializer implements StructuredSerializer<NewsRecord> {
           result.imageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'created_by_id':
+          result.createdById = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -150,6 +164,8 @@ class _$NewsRecord extends NewsRecord {
   @override
   final String? imageUrl;
   @override
+  final DocumentReference<Object?>? createdById;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$NewsRecord([void Function(NewsRecordBuilder)? updates]) =>
@@ -163,6 +179,7 @@ class _$NewsRecord extends NewsRecord {
       this.publishedDate,
       this.isPublished,
       this.imageUrl,
+      this.createdById,
       this.ffRef})
       : super._();
 
@@ -184,6 +201,7 @@ class _$NewsRecord extends NewsRecord {
         publishedDate == other.publishedDate &&
         isPublished == other.isPublished &&
         imageUrl == other.imageUrl &&
+        createdById == other.createdById &&
         ffRef == other.ffRef;
   }
 
@@ -197,6 +215,7 @@ class _$NewsRecord extends NewsRecord {
     _$hash = $jc(_$hash, publishedDate.hashCode);
     _$hash = $jc(_$hash, isPublished.hashCode);
     _$hash = $jc(_$hash, imageUrl.hashCode);
+    _$hash = $jc(_$hash, createdById.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -212,6 +231,7 @@ class _$NewsRecord extends NewsRecord {
           ..add('publishedDate', publishedDate)
           ..add('isPublished', isPublished)
           ..add('imageUrl', imageUrl)
+          ..add('createdById', createdById)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -249,6 +269,11 @@ class NewsRecordBuilder implements Builder<NewsRecord, NewsRecordBuilder> {
   String? get imageUrl => _$this._imageUrl;
   set imageUrl(String? imageUrl) => _$this._imageUrl = imageUrl;
 
+  DocumentReference<Object?>? _createdById;
+  DocumentReference<Object?>? get createdById => _$this._createdById;
+  set createdById(DocumentReference<Object?>? createdById) =>
+      _$this._createdById = createdById;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -267,6 +292,7 @@ class NewsRecordBuilder implements Builder<NewsRecord, NewsRecordBuilder> {
       _publishedDate = $v.publishedDate;
       _isPublished = $v.isPublished;
       _imageUrl = $v.imageUrl;
+      _createdById = $v.createdById;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -297,6 +323,7 @@ class NewsRecordBuilder implements Builder<NewsRecord, NewsRecordBuilder> {
             publishedDate: publishedDate,
             isPublished: isPublished,
             imageUrl: imageUrl,
+            createdById: createdById,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

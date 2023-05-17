@@ -27,6 +27,9 @@ abstract class NewsRecord implements Built<NewsRecord, NewsRecordBuilder> {
   @BuiltValueField(wireName: 'image_url')
   String? get imageUrl;
 
+  @BuiltValueField(wireName: 'created_by_id')
+  DocumentReference? get createdById;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -66,6 +69,7 @@ Map<String, dynamic> createNewsRecordData({
   DateTime? publishedDate,
   bool? isPublished,
   String? imageUrl,
+  DocumentReference? createdById,
 }) {
   final firestoreData = serializers.toFirestore(
     NewsRecord.serializer,
@@ -77,7 +81,8 @@ Map<String, dynamic> createNewsRecordData({
         ..author = author
         ..publishedDate = publishedDate
         ..isPublished = isPublished
-        ..imageUrl = imageUrl,
+        ..imageUrl = imageUrl
+        ..createdById = createdById,
     ),
   );
 

@@ -27,6 +27,9 @@ abstract class TeamsRecord implements Built<TeamsRecord, TeamsRecordBuilder> {
   @BuiltValueField(wireName: 'image_path')
   String? get imagePath;
 
+  @BuiltValueField(wireName: 'created_by_id')
+  DocumentReference? get createdById;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -65,6 +68,7 @@ Map<String, dynamic> createTeamsRecordData({
   DateTime? dateCreated,
   DocumentReference? coachId,
   String? imagePath,
+  DocumentReference? createdById,
 }) {
   final firestoreData = serializers.toFirestore(
     TeamsRecord.serializer,
@@ -75,7 +79,8 @@ Map<String, dynamic> createTeamsRecordData({
         ..isActive = isActive
         ..dateCreated = dateCreated
         ..coachId = coachId
-        ..imagePath = imagePath,
+        ..imagePath = imagePath
+        ..createdById = createdById,
     ),
   );
 

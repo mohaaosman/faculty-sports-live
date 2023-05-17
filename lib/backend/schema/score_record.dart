@@ -27,6 +27,9 @@ abstract class ScoreRecord implements Built<ScoreRecord, ScoreRecordBuilder> {
   @BuiltValueField(wireName: 'last_updated')
   DateTime? get lastUpdated;
 
+  @BuiltValueField(wireName: 'created_by_id')
+  DocumentReference? get createdById;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -64,6 +67,7 @@ Map<String, dynamic> createScoreRecordData({
   int? aTeamScore,
   DateTime? dateCreated,
   DateTime? lastUpdated,
+  DocumentReference? createdById,
 }) {
   final firestoreData = serializers.toFirestore(
     ScoreRecord.serializer,
@@ -74,7 +78,8 @@ Map<String, dynamic> createScoreRecordData({
         ..hTeamScore = hTeamScore
         ..aTeamScore = aTeamScore
         ..dateCreated = dateCreated
-        ..lastUpdated = lastUpdated,
+        ..lastUpdated = lastUpdated
+        ..createdById = createdById,
     ),
   );
 

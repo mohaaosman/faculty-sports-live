@@ -47,6 +47,14 @@ class _$CoachsRecordSerializer implements StructuredSerializer<CoachsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.createdById;
+    if (value != null) {
+      result
+        ..add('created_by_id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -86,6 +94,12 @@ class _$CoachsRecordSerializer implements StructuredSerializer<CoachsRecord> {
           result.coachId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'created_by_id':
+          result.createdById = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -109,6 +123,8 @@ class _$CoachsRecord extends CoachsRecord {
   @override
   final String? coachId;
   @override
+  final DocumentReference<Object?>? createdById;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$CoachsRecord([void Function(CoachsRecordBuilder)? updates]) =>
@@ -119,6 +135,7 @@ class _$CoachsRecord extends CoachsRecord {
       this.dateCreated,
       this.isActive,
       this.coachId,
+      this.createdById,
       this.ffRef})
       : super._();
 
@@ -137,6 +154,7 @@ class _$CoachsRecord extends CoachsRecord {
         dateCreated == other.dateCreated &&
         isActive == other.isActive &&
         coachId == other.coachId &&
+        createdById == other.createdById &&
         ffRef == other.ffRef;
   }
 
@@ -147,6 +165,7 @@ class _$CoachsRecord extends CoachsRecord {
     _$hash = $jc(_$hash, dateCreated.hashCode);
     _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jc(_$hash, coachId.hashCode);
+    _$hash = $jc(_$hash, createdById.hashCode);
     _$hash = $jc(_$hash, ffRef.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -159,6 +178,7 @@ class _$CoachsRecord extends CoachsRecord {
           ..add('dateCreated', dateCreated)
           ..add('isActive', isActive)
           ..add('coachId', coachId)
+          ..add('createdById', createdById)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -184,6 +204,11 @@ class CoachsRecordBuilder
   String? get coachId => _$this._coachId;
   set coachId(String? coachId) => _$this._coachId = coachId;
 
+  DocumentReference<Object?>? _createdById;
+  DocumentReference<Object?>? get createdById => _$this._createdById;
+  set createdById(DocumentReference<Object?>? createdById) =>
+      _$this._createdById = createdById;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -199,6 +224,7 @@ class CoachsRecordBuilder
       _dateCreated = $v.dateCreated;
       _isActive = $v.isActive;
       _coachId = $v.coachId;
+      _createdById = $v.createdById;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -226,6 +252,7 @@ class CoachsRecordBuilder
             dateCreated: dateCreated,
             isActive: isActive,
             coachId: coachId,
+            createdById: createdById,
             ffRef: ffRef);
     replace(_$result);
     return _$result;

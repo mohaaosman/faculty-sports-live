@@ -22,6 +22,9 @@ abstract class CoachsRecord
   @BuiltValueField(wireName: 'coach_id')
   String? get coachId;
 
+  @BuiltValueField(wireName: 'created_by_id')
+  DocumentReference? get createdById;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -57,6 +60,7 @@ Map<String, dynamic> createCoachsRecordData({
   DateTime? dateCreated,
   bool? isActive,
   String? coachId,
+  DocumentReference? createdById,
 }) {
   final firestoreData = serializers.toFirestore(
     CoachsRecord.serializer,
@@ -65,7 +69,8 @@ Map<String, dynamic> createCoachsRecordData({
         ..coachName = coachName
         ..dateCreated = dateCreated
         ..isActive = isActive
-        ..coachId = coachId,
+        ..coachId = coachId
+        ..createdById = createdById,
     ),
   );
 
