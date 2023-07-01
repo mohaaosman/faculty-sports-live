@@ -7,40 +7,5 @@ service cloud.firestore {
       allow write: if request.auth.uid == document;
       allow delete: if false;
     }
-
-    match /teams/{document} {
-      allow create: if request.resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow read: if true;
-      allow write: if resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow delete: if false;
-    }
-
-    match /coachs/{document} {
-      allow create: if request.resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow read: if true;
-      allow write: if resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow delete: if false;
-    }
-
-    match /news/{document} {
-      allow create: if request.resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow read: if true;
-      allow write: if resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow delete: if false;
-    }
-
-    match /matches/{document} {
-      allow create: if request.resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow read: if true;
-      allow write: if resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow delete: if false;
-    }
-
-    match /score/{document} {
-      allow create: if request.resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow read: if true;
-      allow write: if resource.data.created_by_id == /databases/$(database)/documents/users/$(request.auth.uid);
-      allow delete: if false;
-    }
   }
 }

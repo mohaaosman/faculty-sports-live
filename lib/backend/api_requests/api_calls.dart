@@ -9,20 +9,17 @@ export 'api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-class WeatherApiCurrentJsonCall {
-  static Future<ApiCallResponse> call({
-    String? key = 'a6298c7841024a4096b125333231605',
-    String? q = '2.046934, 45.318161',
-  }) {
+class NewsCall {
+  static Future<ApiCallResponse> call() {
     return ApiManager.instance.makeApiCall(
-      callName: 'WeatherApi Current Json',
-      apiUrl: 'http://api.weatherapi.com/v1/current.json',
+      callName: 'News',
+      apiUrl: 'https://facultylivescore.site/api/news',
       callType: ApiCallType.GET,
-      headers: {},
-      params: {
-        'key': key,
-        'q': q,
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
       },
+      params: {},
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -30,25 +27,85 @@ class WeatherApiCurrentJsonCall {
     );
   }
 
-  static dynamic weatherapicurrent(dynamic response) => getJsonField(
+  static dynamic articles(dynamic response) => getJsonField(
         response,
-        r'''$''',
+        r'''$.news''',
+        true,
       );
-  static dynamic currentCelcius(dynamic response) => getJsonField(
+}
+
+class MatchesCall {
+  static Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Matches',
+      apiUrl: 'https://facultylivescore.site/api/matches',
+      callType: ApiCallType.GET,
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic matches(dynamic response) => getJsonField(
         response,
-        r'''$.current.temp_c''',
+        r'''$.matches''',
+        true,
       );
-  static dynamic cityname(dynamic response) => getJsonField(
+}
+
+class ScoreCall {
+  static Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Score',
+      apiUrl: 'https://facultylivescore.site/api/scores',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'content-type': 'application/json',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic scores(dynamic response) => getJsonField(
         response,
-        r'''$.location.name''',
+        r'''$.scores''',
+        true,
       );
-  static dynamic region(dynamic response) => getJsonField(
+}
+
+class TeamsCall {
+  static Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Teams',
+      apiUrl: 'https://facultylivescore.site/api/teams',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'content-type': 'application/json',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic teams(dynamic response) => getJsonField(
         response,
-        r'''$.location.region''',
-      );
-  static dynamic conditiontext(dynamic response) => getJsonField(
-        response,
-        r'''$.current.condition.text''',
+        r'''$.teams''',
+        true,
       );
 }
 
@@ -77,11 +134,11 @@ String _serializeList(List? list) {
   }
 }
 
-String _serializeJson(dynamic jsonVar) {
-  jsonVar ??= {};
+String _serializeJson(dynamic jsonVar, [bool isList = false]) {
+  jsonVar ??= (isList ? [] : {});
   try {
     return json.encode(jsonVar);
   } catch (_) {
-    return '{}';
+    return isList ? '[]' : '{}';
   }
 }
