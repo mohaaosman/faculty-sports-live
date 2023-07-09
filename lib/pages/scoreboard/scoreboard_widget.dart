@@ -1,28 +1,28 @@
-import '/components/teams_list/teams_list_widget.dart';
+import '/components/scoreboardlist/scoreboardlist_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'teams_model.dart';
-export 'teams_model.dart';
+import 'scoreboard_model.dart';
+export 'scoreboard_model.dart';
 
-class TeamsWidget extends StatefulWidget {
-  const TeamsWidget({Key? key}) : super(key: key);
+class ScoreboardWidget extends StatefulWidget {
+  const ScoreboardWidget({Key? key}) : super(key: key);
 
   @override
-  _TeamsWidgetState createState() => _TeamsWidgetState();
+  _ScoreboardWidgetState createState() => _ScoreboardWidgetState();
 }
 
-class _TeamsWidgetState extends State<TeamsWidget> {
-  late TeamsModel _model;
+class _ScoreboardWidgetState extends State<ScoreboardWidget> {
+  late ScoreboardModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TeamsModel());
+    _model = createModel(context, () => ScoreboardModel());
   }
 
   @override
@@ -43,7 +43,7 @@ class _TeamsWidgetState extends State<TeamsWidget> {
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           title: Text(
-            'Teams',
+            'Scoreboard',
             style: FlutterFlowTheme.of(context).headlineSmall.override(
                   fontFamily: 'Outfit',
                   color: Color(0xFF14181B),
@@ -57,21 +57,18 @@ class _TeamsWidgetState extends State<TeamsWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                  child: wrapWithModel(
-                    model: _model.teamsListModel,
-                    updateCallback: () => setState(() {}),
-                    child: TeamsListWidget(),
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                wrapWithModel(
+                  model: _model.scoreboardlistModel,
+                  updateCallback: () => setState(() {}),
+                  child: ScoreboardlistWidget(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

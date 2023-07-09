@@ -134,6 +134,32 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/teams',
           builder: (context, params) =>
               params.isEmpty ? NavBarPage(initialPage: 'Teams') : TeamsWidget(),
+        ),
+        FFRoute(
+          name: 'Scoreboard',
+          path: '/scoreboard',
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'Scoreboard')
+              : ScoreboardWidget(),
+        ),
+        FFRoute(
+          name: 'TeamPage',
+          path: '/teamPage',
+          builder: (context, params) => TeamPageWidget(
+            coachName: params.getParam('coachName', ParamType.String),
+            coachImage: params.getParam('coachImage', ParamType.String),
+            teamName: params.getParam('teamName', ParamType.String),
+            teamId: params.getParam('teamId', ParamType.int),
+            description: params.getParam('description', ParamType.String),
+            teamImage: params.getParam('teamImage', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'Standings',
+          path: '/standings',
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'Standings')
+              : StandingsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

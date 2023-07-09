@@ -80,36 +80,39 @@ class _NewsWidgetState extends State<NewsWidget> {
               centerTitle: false,
               elevation: 0.0,
             ),
-            body: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 0.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'Latest news',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                        ),
-                        wrapWithModel(
-                          model: _model.newsListModel,
-                          updateCallback: () => setState(() {}),
-                          child: NewsListWidget(),
-                        ),
-                      ],
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 0.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Latest news',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                          ),
+                          wrapWithModel(
+                            model: _model.newsListModel,
+                            updateCallback: () => setState(() {}),
+                            child: NewsListWidget(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

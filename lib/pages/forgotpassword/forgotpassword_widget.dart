@@ -115,126 +115,118 @@ class _ForgotpasswordWidgetState extends State<ForgotpasswordWidget> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(24.0, 4.0, 24.0, 0.0),
-              child: Container(
-                width: double.infinity,
-                height: 60.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 5.0,
-                      color: Color(0x4D101213),
-                      offset: Offset(0.0, 2.0),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: TextFormField(
-                  controller: _model.emailAddressController,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelStyle:
-                        FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Outfit',
-                              color: Color(0xFF0F1113),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                            ),
-                    hintText: 'Enter your email...',
-                    hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF57636C),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                  child: TextFormField(
+                    controller: _model.emailAddressController,
+                    textCapitalization: TextCapitalization.sentences,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: 'Enter your email address',
+                      labelStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: Color(0xFF57636C),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                      hintStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: Color(0xFF57636C),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFE0E3E7),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF4B39EF),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFFF5963),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFFF5963),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      filled: true,
+                      fillColor: Color(0xCCFFFFFF),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Plus Jakarta Sans',
+                          color: Color(0xFF101213),
                           fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.w500,
                         ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 0.0,
-                      ),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 0.0,
-                      ),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 0.0,
-                      ),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x00000000),
-                        width: 0.0,
-                      ),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 20.0, 24.0),
-                  ),
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Outfit',
-                        color: Color(0xFF0F1113),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.normal,
-                      ),
-                  maxLines: null,
-                  validator: _model.emailAddressControllerValidator
-                      .asValidator(context),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
-              child: FFButtonWidget(
-                onPressed: () async {
-                  if (_model.emailAddressController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Email required!',
-                        ),
-                      ),
-                    );
-                    return;
-                  }
-                  await authManager.resetPassword(
-                    email: _model.emailAddressController.text,
-                    context: context,
-                  );
-                  context.safePop();
-                },
-                text: 'Send Link',
-                options: FFButtonOptions(
-                  width: 270.0,
-                  height: 50.0,
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: Color(0xFF0F1113),
-                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Outfit',
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.normal,
-                      ),
-                  elevation: 3.0,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
+                    validator: _model.emailAddressControllerValidator
+                        .asValidator(context),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                  child: FFButtonWidget(
+                    onPressed: () async {
+                      if (_model.emailAddressController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Email required!',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+                      await authManager.resetPassword(
+                        email: _model.emailAddressController.text,
+                        context: context,
+                      );
+                      context.safePop();
+                    },
+                    text: 'Send Link',
+                    options: FFButtonOptions(
+                      width: 270.0,
+                      height: 50.0,
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      iconPadding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      color: Color(0xFF0F1113),
+                      textStyle:
+                          FlutterFlowTheme.of(context).titleSmall.override(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.normal,
+                              ),
+                      elevation: 3.0,
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

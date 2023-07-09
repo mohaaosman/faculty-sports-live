@@ -17,7 +17,7 @@ class NewsCall {
       callType: ApiCallType.GET,
       headers: {
         'content-type': 'application/json',
-        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
       },
       params: {},
       returnBody: true,
@@ -42,7 +42,7 @@ class MatchesCall {
       callType: ApiCallType.GET,
       headers: {
         'content-type': 'application/json',
-        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
       },
       params: {},
       returnBody: true,
@@ -66,7 +66,7 @@ class ScoreCall {
       apiUrl: 'https://facultylivescore.site/api/scores',
       callType: ApiCallType.GET,
       headers: {
-        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
         'content-type': 'application/json',
       },
       params: {},
@@ -91,7 +91,7 @@ class TeamsCall {
       apiUrl: 'https://facultylivescore.site/api/teams',
       callType: ApiCallType.GET,
       headers: {
-        'Authorization': 'Bearer JRH3KVuBfJoJTsgyp6SsZy7fIHepRngPuBVdzL3H',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
         'content-type': 'application/json',
       },
       params: {},
@@ -105,6 +105,60 @@ class TeamsCall {
   static dynamic teams(dynamic response) => getJsonField(
         response,
         r'''$.teams''',
+        true,
+      );
+}
+
+class GetTeamPlayersCall {
+  static Future<ApiCallResponse> call({
+    int? id,
+  }) {
+    return ApiManager.instance.makeApiCall(
+      callName: 'GetTeamPlayers',
+      apiUrl: 'https://facultylivescore.site/api/players',
+      callType: ApiCallType.GET,
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
+      },
+      params: {
+        'id': id,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic teamplayers(dynamic response) => getJsonField(
+        response,
+        r'''$.players''',
+        true,
+      );
+}
+
+class StandingsCall {
+  static Future<ApiCallResponse> call() {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Standings',
+      apiUrl: 'https://facultylivescore.site/api/standings',
+      callType: ApiCallType.GET,
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer LrquEgBjC1HUzQ49mZlwuAER2Ad00ivAHH7brFPn',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+    );
+  }
+
+  static dynamic standings(dynamic response) => getJsonField(
+        response,
+        r'''$.standings''',
         true,
       );
 }

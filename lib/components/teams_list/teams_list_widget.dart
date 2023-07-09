@@ -1,8 +1,8 @@
 import '/backend/api_requests/api_calls.dart';
-import '/components/team_view_sheet/team_view_sheet_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -46,7 +46,9 @@ class _TeamsListWidgetState extends State<TeamsListWidget>
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 0.0),
       child: FutureBuilder<ApiCallResponse>(
-        future: TeamsCall.call(),
+        future: (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
+              ..complete(TeamsCall.call()))
+            .future,
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
@@ -67,164 +69,188 @@ class _TeamsListWidgetState extends State<TeamsListWidget>
                     listViewTeamsResponse.jsonBody,
                   )?.toList() ??
                   [];
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                scrollDirection: Axis.vertical,
-                itemCount: teams.length,
-                itemBuilder: (context, teamsIndex) {
-                  final teamsItem = teams[teamsIndex];
-                  return Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 1.0),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        await showModalBottomSheet(
-                          isScrollControlled: true,
-                          enableDrag: false,
-                          context: context,
-                          builder: (context) {
-                            return Padding(
-                              padding: MediaQuery.viewInsetsOf(context),
-                              child: Container(
-                                height: 610.0,
-                                child: TeamViewSheetWidget(
-                                  teamName: getJsonField(
-                                    teamsItem,
-                                    r'''$.name''',
-                                  ).toString(),
-                                  teamImage: getJsonField(
-                                    teamsItem,
-                                    r'''$.image''',
-                                  ),
-                                  coachName: getJsonField(
-                                    teamsItem,
-                                    r'''$.coach_name''',
-                                  ).toString(),
-                                  description: getJsonField(
-                                    teamsItem,
-                                    r'''$.description''',
-                                  ).toString(),
-                                ),
+              return RefreshIndicator(
+                onRefresh: () async {
+                  setState(() => _model.apiRequestCompleter = null);
+                  await _model.waitForApiRequestCompleted();
+                },
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: teams.length,
+                  itemBuilder: (context, teamsIndex) {
+                    final teamsItem = teams[teamsIndex];
+                    return Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 1.0),
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          context.pushNamed(
+                            'TeamPage',
+                            queryParameters: {
+                              'coachName': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.coach_name''',
+                                ).toString(),
+                                ParamType.String,
                               ),
-                            );
-                          },
-                        ).then((value) => setState(() {}));
-                      },
-                      child: Container(
-                        width: 100.0,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 0.0,
-                              color: Color(0xFFE0E3E7),
-                              offset: Offset(0.0, 1.0),
-                            )
-                          ],
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 8.0, 8.0, 8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(40.0),
-                                child: Image.network(
-                                  getJsonField(
-                                    teamsItem,
-                                    r'''$.image''',
-                                  ),
-                                  width: 60.0,
-                                  height: 60.0,
-                                  fit: BoxFit.cover,
+                              'coachImage': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.coach_image''',
                                 ),
+                                ParamType.String,
                               ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        getJsonField(
-                                          teamsItem,
-                                          r'''$.name''',
-                                        ).toString(),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .override(
-                                              fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF14181B),
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 4.0, 0.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    12.0, 0.0, 0.0, 0.0),
-                                            child: Text(
-                                              getJsonField(
-                                                teamsItem,
-                                                r'''$.coach_name''',
-                                              ).toString(),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Plus Jakarta Sans',
-                                                        color:
-                                                            Color(0xFF57636C),
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              'teamName': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.name''',
+                                ).toString(),
+                                ParamType.String,
                               ),
-                              Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFFF1F4F8),
-                                elevation: 1.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
+                              'teamId': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.id''',
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4.0, 4.0, 4.0, 4.0),
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: Color(0xFF57636C),
-                                    size: 24.0,
-                                  ),
-                                ),
+                                ParamType.int,
                               ),
+                              'description': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.description''',
+                                ).toString(),
+                                ParamType.String,
+                              ),
+                              'teamImage': serializeParam(
+                                getJsonField(
+                                  teamsItem,
+                                  r'''$.image''',
+                                ),
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
+                        },
+                        child: Container(
+                          width: 100.0,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 0.0,
+                                color: Color(0xFFE0E3E7),
+                                offset: Offset(0.0, 1.0),
+                              )
                             ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                8.0, 8.0, 8.0, 8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  child: Image.network(
+                                    getJsonField(
+                                      teamsItem,
+                                      r'''$.image''',
+                                    ),
+                                    width: 60.0,
+                                    height: 60.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            12.0, 0.0, 0.0, 0.0),
+                                        child: Text(
+                                          getJsonField(
+                                            teamsItem,
+                                            r'''$.name''',
+                                          ).toString(),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyLarge
+                                              .override(
+                                                fontFamily: 'Plus Jakarta Sans',
+                                                color: Color(0xFF14181B),
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 4.0, 0.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 0.0, 0.0, 0.0),
+                                              child: Text(
+                                                getJsonField(
+                                                  teamsItem,
+                                                  r'''$.coach_name''',
+                                                ).toString(),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          color:
+                                                              Color(0xFF57636C),
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Color(0xFFF1F4F8),
+                                  elevation: 1.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4.0, 4.0, 4.0, 4.0),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_right_rounded,
+                                      color: Color(0xFF57636C),
+                                      size: 24.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             },
           );

@@ -1100,7 +1100,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                                           .createAccountWithEmail(
                                                         context,
                                                         _model
-                                                            .emailAddressController
+                                                            .emailAddressCreateController
                                                             .text,
                                                         _model
                                                             .passwordCreateController
@@ -1115,9 +1115,9 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                                                           .doc(user.uid)
                                                           .update(
                                                               createUsersRecordData(
-                                                            email: '',
-                                                            displayName: '',
-                                                            photoUrl: '',
+                                                            email: _model
+                                                                .emailAddressCreateController
+                                                                .text,
                                                           ));
 
                                                       context.goNamedAuth(

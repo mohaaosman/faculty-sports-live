@@ -120,6 +120,8 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'News': NewsWidget(),
       'Matches': MatchesWidget(),
+      'Scoreboard': ScoreboardWidget(),
+      'Standings': StandingsWidget(),
       'Teams': TeamsWidget(),
       'AppSettings': AppSettingsWidget(),
     };
@@ -154,6 +156,22 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24.0,
             ),
             label: 'Matches',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.sports_score,
+              size: 24.0,
+            ),
+            label: 'Scoreboard',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.align_vertical_top,
+              size: 24.0,
+            ),
+            label: 'Standings',
             tooltip: '',
           ),
           BottomNavigationBarItem(

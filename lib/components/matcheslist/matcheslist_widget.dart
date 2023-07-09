@@ -1,6 +1,8 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/match_view_sheet/match_view_sheet_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +41,9 @@ class _MatcheslistWidgetState extends State<MatcheslistWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<ApiCallResponse>(
-      future: MatchesCall.call(),
+      future: (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
+            ..complete(MatchesCall.call()))
+          .future,
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -60,161 +64,214 @@ class _MatcheslistWidgetState extends State<MatcheslistWidget> {
                   listViewMatchesResponse.jsonBody,
                 )?.toList() ??
                 [];
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: matches.length,
-              itemBuilder: (context, matchesIndex) {
-                final matchesItem = matches[matchesIndex];
-                return Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                  child: Container(
-                    width: MediaQuery.sizeOf(context).width * 1.0,
-                    height: 139.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 3.0,
-                          color: Color(0x411D2429),
-                          offset: Offset(0.0, 1.0),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Column(
+            return RefreshIndicator(
+              onRefresh: () async {
+                setState(() => _model.apiRequestCompleter = null);
+                await _model.waitForApiRequestCompleted();
+              },
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: matches.length,
+                itemBuilder: (context, matchesIndex) {
+                  final matchesItem = matches[matchesIndex];
+                  return Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        await showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          enableDrag: false,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: MatchViewSheetWidget(
+                                hometeamname: getJsonField(
+                                  matchesItem,
+                                  r'''$.home_team_name''',
+                                ).toString(),
+                                hometeamimage: getJsonField(
+                                  matchesItem,
+                                  r'''$.home_team_image''',
+                                ),
+                                awayteamimage: getJsonField(
+                                  matchesItem,
+                                  r'''$.away_team_image''',
+                                ),
+                                awayteamname: getJsonField(
+                                  matchesItem,
+                                  r'''$.away_team_name''',
+                                ).toString(),
+                                description: getJsonField(
+                                  matchesItem,
+                                  r'''$.description''',
+                                ).toString(),
+                                lineup: getJsonField(
+                                  matchesItem,
+                                  r'''$.lineup''',
+                                ),
+                              ),
+                            );
+                          },
+                        ).then((value) => setState(() {}));
+                      },
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        height: 139.0,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 3.0,
+                              color: Color(0x411D2429),
+                              offset: Offset(0.0, 1.0),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 8.0, 8.0, 8.0),
+                          child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    getJsonField(
-                                      matchesItem,
-                                      r'''$.home_team_image''',
-                                    ),
-                                    width: 70.0,
-                                    height: 59.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 70.0,
-                                child: Divider(
-                                  thickness: 1.0,
-                                  color: FlutterFlowTheme.of(context).accent3,
-                                ),
-                              ),
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    getJsonField(
-                                      matchesItem,
-                                      r'''$.away_team_image''',
-                                    ),
-                                    width: 70.0,
-                                    height: 59.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  8.0, 15.0, 4.0, 15.0),
-                              child: Column(
+                              Column(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    getJsonField(
-                                      matchesItem,
-                                      r'''$.home_team_name''',
-                                    ).toString(),
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w500,
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        getJsonField(
+                                          matchesItem,
+                                          r'''$.home_team_image''',
                                         ),
+                                        width: 70.0,
+                                        height: 59.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                  Text(
-                                    'VS',
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w300,
-                                        ),
+                                  SizedBox(
+                                    width: 70.0,
+                                    child: Divider(
+                                      thickness: 1.0,
+                                      color:
+                                          FlutterFlowTheme.of(context).accent3,
+                                    ),
                                   ),
-                                  Text(
-                                    getJsonField(
-                                      matchesItem,
-                                      r'''$.away_team_name''',
-                                    ).toString(),
-                                    style: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w500,
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        getJsonField(
+                                          matchesItem,
+                                          r'''$.away_team_image''',
                                         ),
+                                        width: 70.0,
+                                        height: 59.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 4.0, 8.0),
-                                child: Text(
-                                  getJsonField(
-                                    matchesItem,
-                                    r'''$.scheduled_date''',
-                                  ).toString(),
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        fontFamily: 'Plus Jakarta Sans',
-                                        color: Color(0xFF14181B),
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.normal,
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 15.0, 4.0, 15.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        getJsonField(
+                                          matchesItem,
+                                          r'''$.home_team_name''',
+                                        ).toString(),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color: Color(0xFF14181B),
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                       ),
+                                      Text(
+                                        'VS',
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color: Color(0xFF14181B),
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                      ),
+                                      Text(
+                                        getJsonField(
+                                          matchesItem,
+                                          r'''$.away_team_name''',
+                                        ).toString(),
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color: Color(0xFF14181B),
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 4.0, 8.0),
+                                    child: Text(
+                                      getJsonField(
+                                        matchesItem,
+                                        r'''$.scheduled_date''',
+                                      ).toString(),
+                                      textAlign: TextAlign.end,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodySmall
+                                          .override(
+                                            fontFamily: 'Plus Jakarta Sans',
+                                            color: Color(0xFF14181B),
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             );
           },
         );
